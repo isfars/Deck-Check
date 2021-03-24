@@ -1,9 +1,6 @@
 import React from "react";
 
 export const Layout = ({ children, isClosed, setClosed, isStatic }) => {
-  // const [isClosed, setClosed] = useState(false);
-  // const isStatic = useBreakPoint('sm');
-
   return (
     <div className="parent-container">
       {(isStatic || !isClosed) && (
