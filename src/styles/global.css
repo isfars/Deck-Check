@@ -2,7 +2,79 @@
 @tailwind components;
 @tailwind utilities;
 
-.mainHead{
+.parent-container{
     @apply
-    text-blue-600
+    flex 
+    bg-gray-100
+}
+
+.sidebar{
+    @apply
+    bg-white 
+    w-32 
+    min-h-screen 
+    flex 
+    flex-col
+}
+
+.logo{
+    @apply
+    bg-white 
+    border-r 
+    border-b 
+    px-4 
+    h-10 
+    flex 
+    items-center
+}
+
+.logo-text{
+    @apply
+    text-blue-200 
+    py-2
+}
+
+.deck-list{
+    @apply
+    border-r 
+    py-4 
+    flex-grow
+}
+
+.main-container{
+    @apply
+    flex-grow 
+    flex 
+    flex-col 
+    min-h-screen
+}
+
+.top-header{
+    @apply
+    bg-white 
+    border-b 
+    h-10 flex 
+    items-center 
+    justify-center
+}
+
+.top-header-content{
+    @apply
+    flex 
+    flex-grow 
+    items-center 
+    justify-between 
+    px-3
+}
+
+.site-link{
+    @apply
+    text-blue-700 
+    underline
+}
+
+.slide-button{
+    @apply
+    w-10 
+    p-1
 }

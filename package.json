@@ -16,7 +16,8 @@
   "dependencies": {
     "gatsby": "^3.1.1",
     "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react-dom": "^17.0.1",
+    "react-responsive": "^8.2.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.2.5",

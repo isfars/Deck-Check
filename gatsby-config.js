@@ -2,5 +2,5 @@ module.exports = {
   siteMetadata: {
     title: "Deck Check",
   },
-  plugins: [],
+  plugins: ['gatsby-plugin-postcss'],
 };
