@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer } from "react";
+import React, { createContext, useReducer } from "react";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -29,7 +29,7 @@ const reducer = (state, action) => {
         deckStats: action.payload,
       };
     case "addToDeck":
-      console.log(action.payload);
+      // console.log(action.payload);
       let newDeck;
       let newDeckStats;
       let change = false;
@@ -41,16 +41,16 @@ const reducer = (state, action) => {
           change = true;
         } else {
           newDeck = { ...state.deckContents };
-          console.log(`old : ${JSON.stringify(newDeck, null, 2)}`);
+          // console.log(`old : ${JSON.stringify(newDeck, null, 2)}`);
           if (action.payload.type_line.includes("Basic Land")) {
             newDeck[action.payload.id].count += 1;
             change = true;
-            console.log(`new : ${JSON.stringify(newDeck, null, 2)}`);
+            // console.log(`new : ${JSON.stringify(newDeck, null, 2)}`);
           } else {
             if (newDeck[action.payload.id].count < 4) {
               newDeck[action.payload.id].count += 1;
               change = true;
-              console.log(`new : ${JSON.stringify(newDeck, null, 2)}`);
+              // console.log(`new : ${JSON.stringify(newDeck, null, 2)}`);
             }
           }
         }
@@ -100,8 +100,8 @@ const reducer = (state, action) => {
             smallerDeckStats.spellCount -= 1;
             if(smallerDeckStats.spellCount>0){
               smallerDeckStats.avgCmc = (
-                smallerDeckStats.avgCmc * (smallerDeckStats.spellCount + 1) - newCmc) /
-                parseFloat(smallerDeckStats.spellCount).toFixed(2);
+                (smallerDeckStats.avgCmc * (smallerDeckStats.spellCount + 1) - newCmc) /
+                parseFloat(smallerDeckStats.spellCount)).toFixed(2);
               newCmc < 7
                 ? (smallerDeckStats.curve[newCmc] -= 1)
                 : (smallerDeckStats.curve[7] -= 1);
@@ -126,6 +126,8 @@ const reducer = (state, action) => {
         deckContents: smallerDeck,
         deckStats: smallerDeckStats,
       };
+      default:
+      throw new Error(`Unknow action type: ${action.type}`)
   }
 };
 
@@ -136,7 +138,7 @@ const initialState = {
   pool: [],
   count: 0,
   message: "",
-  drawer: false,
+  drawer: true,
 };
 
 const Store = ({ children }) => {
@@ -148,11 +150,3 @@ const Store = ({ children }) => {
 
 export const Context = createContext(initialState);
 export default Store;
-
-// export const StoreProvider = ({ children }) => {
-//   const [state, dispatch] = useReducer(reducer, initialState);
-
-//   return <StoreContext.Provider>{children}</StoreContext.Provider>;
-// };
-
-// export const useStore = () => useContext(StoreContext);
