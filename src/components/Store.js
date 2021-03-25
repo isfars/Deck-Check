@@ -8,6 +8,11 @@ const reducer = (state, action) => {
         count: state.count + 1,
         message: action.message,
       };
+    case "drawer":
+      return {
+        ...state,
+        drawer: !action.payload,
+      };
     case "setPool":
       return {
         ...state,
@@ -23,7 +28,6 @@ const reducer = (state, action) => {
         ...state,
         deckStats: action.payload,
       };
-
     case "addToDeck":
       console.log(action.payload);
       let newDeck;
@@ -38,10 +42,16 @@ const reducer = (state, action) => {
         } else {
           newDeck = { ...state.deckContents };
           console.log(`old : ${JSON.stringify(newDeck, null, 2)}`);
-          if (newDeck[action.payload.id].count < 4) {
+          if (action.payload.type_line.includes("Basic Land")) {
             newDeck[action.payload.id].count += 1;
             change = true;
             console.log(`new : ${JSON.stringify(newDeck, null, 2)}`);
+          } else {
+            if (newDeck[action.payload.id].count < 4) {
+              newDeck[action.payload.id].count += 1;
+              change = true;
+              console.log(`new : ${JSON.stringify(newDeck, null, 2)}`);
+            }
           }
         }
         if (change) {
@@ -62,14 +72,59 @@ const reducer = (state, action) => {
             newDeckStats.landCount += 1;
           }
         } else {
-          newDeckStats = state.deckStats
+          newDeckStats = state.deckStats;
         }
-        console.log(newDeckStats)
+        console.log(newDeckStats);
       }
       return {
         ...state,
         deckContents: newDeck,
         deckStats: newDeckStats,
+      };
+    case "removeFromDeck":
+      let smallerDeck;
+      let smallerDeckStats;
+      if (action.payload) {
+        if (state.deckContents[action.payload.id]) {
+          smallerDeck = { ...state.deckContents };
+          if (state.deckContents[action.payload.id].count > 1) {
+            smallerDeck[action.payload.id].count -= 1;
+          } else {
+            delete smallerDeck[action.payload.id];
+          }
+
+          smallerDeckStats = { ...state.deckStats };
+          smallerDeckStats.cardCount -= 1;
+          if (action.payload.cmc) {
+            let newCmc = action.payload.cmc;
+            smallerDeckStats.spellCount -= 1;
+            if(smallerDeckStats.spellCount>0){
+              smallerDeckStats.avgCmc = (
+                smallerDeckStats.avgCmc * (smallerDeckStats.spellCount + 1) - newCmc) /
+                parseFloat(smallerDeckStats.spellCount).toFixed(2);
+              newCmc < 7
+                ? (smallerDeckStats.curve[newCmc] -= 1)
+                : (smallerDeckStats.curve[7] -= 1);
+            } else {
+              smallerDeckStats.avgCmc = 0.00;
+              newCmc < 7
+                ? (smallerDeckStats.curve[newCmc] -= 1)
+                : (smallerDeckStats.curve[7] -= 1);
+            }
+          }
+          if (action.payload.type_line.includes("Land")) {
+            smallerDeckStats.landCount -= 1;
+          }
+        } else {
+          smallerDeckStats = state.deckStats;
+          smallerDeck = state.deckContents;
+        }
+      }
+      console.log(smallerDeckStats)
+      return {
+        ...state,
+        deckContents: smallerDeck,
+        deckStats: smallerDeckStats,
       };
   }
 };
@@ -81,6 +136,7 @@ const initialState = {
   pool: [],
   count: 0,
   message: "",
+  drawer: false,
 };
 
 const Store = ({ children }) => {

@@ -3,7 +3,7 @@ import { Context } from "./Store";
 import firebase from "../database/firebase";
 import { SearchBar } from "./SearchBar";
 
-export const Layout = ({ children, isClosed, setClosed, isStatic }) => {
+export const Layout = ({ children }) => {
   const [state, dispatch] = useContext(Context);
 
   useEffect(() => {
@@ -16,8 +16,8 @@ export const Layout = ({ children, isClosed, setClosed, isStatic }) => {
           ...doc.data(),
         }));
 
-        console.log(listCards);
         dispatch({ type: "setPool", payload: listCards });
+        dispatch({ type: 'drawer', payload: state.drawer})
         dispatch({
           type: "setDeckStats",
           payload: {
@@ -37,6 +37,7 @@ export const Layout = ({ children, isClosed, setClosed, isStatic }) => {
             },
           },
         });
+
         dispatch({ type: "setSelectedDeckContents", payload: {} });
       });
     return () => unsubscribe();
@@ -44,7 +45,7 @@ export const Layout = ({ children, isClosed, setClosed, isStatic }) => {
 
   return (
     <div className="parent-container">
-      {(isStatic || !isClosed) && (
+      {!state.drawer && (
         <aside className="sidebar">
           <div className="logo">
             <span className="logo-text">Deck Check</span>
@@ -65,14 +66,13 @@ export const Layout = ({ children, isClosed, setClosed, isStatic }) => {
       )}
       <main className="main-container">
         <header className="top-header">
-          {!isStatic &&
-            (isClosed ? (
+          {state.drawer ? (
               <button
                 tabIndex="1"
                 aria-label="Open menu"
                 title="Open menu"
                 className="slide-button"
-                onClick={() => setClosed(false)}
+                onClick={() => dispatch({ type: 'drawer', payload: state.drawer})}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -94,7 +94,7 @@ export const Layout = ({ children, isClosed, setClosed, isStatic }) => {
                 aria-label="Close menu"
                 title="Close menu"
                 className="slide-button"
-                onClick={() => setClosed(true)}
+                onClick={() => dispatch({ type: 'drawer', payload: state.drawer})}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -110,7 +110,7 @@ export const Layout = ({ children, isClosed, setClosed, isStatic }) => {
                   />
                 </svg>
               </button>
-            ))}
+            )}
           <div className="top-header-content">
             <SearchBar />
           </div>

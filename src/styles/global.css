@@ -12,10 +12,12 @@
 .sidebar{
     @apply
     bg-white 
-    w-1/2 
+    w-screen
+    md:w-72 
     min-h-screen 
     flex 
     flex-col
+    z-40
 }
 
 .logo{

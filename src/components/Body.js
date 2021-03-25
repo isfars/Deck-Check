@@ -20,11 +20,13 @@ export const Body = ({ children }) => {
         </div>
       </div>
       <div className="h-1/2 bg-gray-300 overflow-y-auto">
-        <div className="grid grid-cols-2 md:grid-cols-6 xl:grid-cols-8">
+      <div className="container mx-auto px-4 my-2">
+        <div className="flex flex-wrap -mx-6">
           {Object.keys(state.deckContents).map((card) => (
              <DeckCard card={state.deckContents[card]} key={card}/>
             
           ))}
+        </div>
         </div>
       </div>
     </div>

@@ -9,7 +9,7 @@ export const SelectionCard = ({ card }) => {
       <div className="px-1 bg-white">
         <div className="flex flex-grow items-center pt-1  justify-between">
           <div>
-            <button className="slide-button text-blue-600">
+            <button className="slide-button text-blue-600" onClick= {()=>dispatch({type: 'removeFromDeck', payload: card})}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
