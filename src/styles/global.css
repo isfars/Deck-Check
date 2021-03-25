@@ -6,12 +6,13 @@
     @apply
     flex 
     bg-gray-100
+    overflow-y-hidden
 }
 
 .sidebar{
     @apply
     bg-white 
-    w-32 
+    w-1/2 
     min-h-screen 
     flex 
     flex-col
@@ -53,7 +54,8 @@
     @apply
     bg-white 
     border-b 
-    h-10 flex 
+    h-10
+    flex 
     items-center 
     justify-center
 }
@@ -63,18 +65,18 @@
     flex 
     flex-grow 
     items-center 
-    justify-between 
+    justify-center 
     px-3
 }
 
 .site-link{
     @apply
     text-blue-700 
-    underline
+    px-1
 }
 
 .slide-button{
     @apply
     w-10 
-    p-1
+    p-2
 }

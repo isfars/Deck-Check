@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
 import { Context } from "./Store";
 
-export const SelectionCard = ({ card }) => {
+export const DeckCard = ({ card }) => {
   const [state, dispatch] = useContext(Context);
+  let className = `w-32 border rounded-lg p-3 bg-white mx-4 my-1 shadow-lg order-${card.cmc}`
   return (
-    <div className="w-64 border rounded-lg p-3 bg-white mx-4 my-1 shadow-lg">
+    <div className={className}>
       <img src={card.image_uris.normal} className="w-full" alt="..." />
       <div className="px-1 bg-white">
         <div className="flex flex-grow items-center pt-1  justify-between">
@@ -25,7 +26,7 @@ export const SelectionCard = ({ card }) => {
               </svg>
             </button>
           </div>
-          <div className="text-3xl">
+          <div className="text-xl">
             {state.deckContents[card.id] ? state.deckContents[card.id].count : 0}
           </div>
           <div>

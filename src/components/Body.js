@@ -1,33 +1,32 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { SelectionCard } from "./SelectionCard";
+import { DeckCard } from "./DeckCard";
+import { Context } from "./Store";
 
-export const Body = () => {
+export const Body = ({ children }) => {
+  const [state, dispatch] = useContext(Context);
+  // useEffect(()=>{
+  //   dispatch()
+  // })
   return (
     <div className="grid-rows-2 content-center h-screen">
-      <div className="h-2/3 bg-red-200 overflow-y-auto">
-        <div className="flex justify-center">
-          <div className="bg-black text-white w-1/2 h-32 fixed">Hey</div>
-        </div>
-        <div className="container mx-auto px-4 mt-24">
+      <div className="h-1/2 bg-gray-200 overflow-y-auto">
+        <div className="container mx-auto px-4 my-2">
           <div className="flex flex-wrap -mx-4">
-            <SelectionCard />
-            <SelectionCard />
-            <SelectionCard />
-            <SelectionCard />
-            <SelectionCard />
-            <SelectionCard />
-            <SelectionCard />
-            <SelectionCard />
-            <SelectionCard />
-            <SelectionCard />
-            <SelectionCard />
-            <SelectionCard />
-            <SelectionCard />
-            <SelectionCard />
+            {state.pool.map((card) => (
+              <SelectionCard card={card} key={card.id} />
+            ))}
           </div>
         </div>
       </div>
-      <div className="h-1/3 bg-blue-200 resize-y">Deck Here </div>
+      <div className="h-1/2 bg-gray-300 overflow-y-auto">
+        <div className="grid grid-cols-2 md:grid-cols-6 xl:grid-cols-8">
+          {Object.keys(state.deckContents).map((card) => (
+             <DeckCard card={state.deckContents[card]} key={card}/>
+            
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
